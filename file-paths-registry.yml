@@ -1,0 +1,698 @@
+# =============================================================================
+# file-paths-registry.yml
+# =============================================================================
+# Purpose: Complete registry of all file paths in the Terraform Modules repository.
+# This file serves as a reference for AI agents and developers to locate specific
+# templates, modules, and examples across AWS, Azure, and GCP.
+#
+# Repository  : Terraform_Modules
+# Clouds      : AWS | Azure | GCP
+# Last Updated: 2025
+# =============================================================================
+
+repository:
+  root: Terraform_Modules/
+
+  # ---------------------------------------------------------------------------
+  # ROOT MODULE FILES
+  # ---------------------------------------------------------------------------
+  root_module:
+    description: Root module that wires all cloud modules together
+    files:
+      entrypoint:   main.tf
+      variables:    variables.tf
+      outputs:      outputs.tf
+      readme:       README.md
+      gitignore:    .gitignore
+
+  # ---------------------------------------------------------------------------
+  # AWS MODULES
+  # ---------------------------------------------------------------------------
+  aws:
+    provider: hashicorp/aws
+    provider_version: ">= 5.0"
+    base_path: modules/aws/
+
+    modules:
+
+      vpc:
+        description: VPC, public/private subnets, Internet Gateway, NAT Gateway, route tables
+        path: modules/aws/vpc/
+        resources:
+          - aws_vpc
+          - aws_subnet
+          - aws_internet_gateway
+          - aws_nat_gateway
+          - aws_eip
+          - aws_route_table
+          - aws_route_table_association
+        files:
+          main:      modules/aws/vpc/main.tf
+          variables: modules/aws/vpc/variables.tf
+          outputs:   modules/aws/vpc/outputs.tf
+          readme:    modules/aws/vpc/README.md
+
+      ec2:
+        description: EC2 instances, EBS volumes, Elastic IPs, IMDSv2 enforced
+        path: modules/aws/ec2/
+        resources:
+          - aws_instance
+          - aws_eip
+        files:
+          main:      modules/aws/ec2/main.tf
+          variables: modules/aws/ec2/variables.tf
+          outputs:   modules/aws/ec2/outputs.tf
+          readme:    modules/aws/ec2/README.md
+
+      security_group:
+        description: Security groups with ingress and egress rules
+        path: modules/aws/security_group/
+        resources:
+          - aws_security_group
+          - aws_vpc_security_group_ingress_rule
+          - aws_vpc_security_group_egress_rule
+        files:
+          main:      modules/aws/security_group/main.tf
+          variables: modules/aws/security_group/variables.tf
+          outputs:   modules/aws/security_group/outputs.tf
+
+      s3:
+        description: S3 bucket, versioning, SSE encryption, lifecycle rules, CORS, access logging
+        path: modules/aws/s3/
+        resources:
+          - aws_s3_bucket
+          - aws_s3_bucket_versioning
+          - aws_s3_bucket_server_side_encryption_configuration
+          - aws_s3_bucket_public_access_block
+          - aws_s3_bucket_lifecycle_configuration
+          - aws_s3_bucket_policy
+          - aws_s3_bucket_cors_configuration
+          - aws_s3_bucket_logging
+        files:
+          main:      modules/aws/s3/main.tf
+          variables: modules/aws/s3/variables.tf
+          outputs:   modules/aws/s3/outputs.tf
+
+      rds:
+        description: RDS instance, DB subnet group, parameter group
+        path: modules/aws/rds/
+        resources:
+          - aws_db_instance
+          - aws_db_subnet_group
+          - aws_db_parameter_group
+        files:
+          main:      modules/aws/rds/main.tf
+          variables: modules/aws/rds/variables.tf
+          outputs:   modules/aws/rds/outputs.tf
+
+      iam:
+        description: IAM roles, policies, users, groups, instance profiles
+        path: modules/aws/iam/
+        resources:
+          - aws_iam_role
+          - aws_iam_role_policy_attachment
+          - aws_iam_role_policy
+          - aws_iam_instance_profile
+          - aws_iam_policy
+          - aws_iam_user
+          - aws_iam_user_policy_attachment
+          - aws_iam_group
+          - aws_iam_group_policy_attachment
+        files:
+          main:      modules/aws/iam/main.tf
+          variables: modules/aws/iam/variables.tf
+          outputs:   modules/aws/iam/outputs.tf
+
+      eks:
+        description: EKS cluster, managed node groups, cluster addons, IAM roles
+        path: modules/aws/eks/
+        resources:
+          - aws_eks_cluster
+          - aws_eks_node_group
+          - aws_eks_addon
+          - aws_iam_role
+          - aws_iam_role_policy_attachment
+        files:
+          main:      modules/aws/eks/main.tf
+          variables: modules/aws/eks/variables.tf
+          outputs:   modules/aws/eks/outputs.tf
+
+      alb:
+        description: Application/Network Load Balancer, target groups, listeners, routing rules
+        path: modules/aws/alb/
+        resources:
+          - aws_lb
+          - aws_lb_target_group
+          - aws_lb_listener
+          - aws_lb_listener_rule
+        files:
+          main:      modules/aws/alb/main.tf
+          variables: modules/aws/alb/variables.tf
+          outputs:   modules/aws/alb/outputs.tf
+
+      route53:
+        description: Hosted zones, DNS records (A, CNAME, alias), health checks
+        path: modules/aws/route53/
+        resources:
+          - aws_route53_zone
+          - aws_route53_record
+          - aws_route53_health_check
+        files:
+          main:      modules/aws/route53/main.tf
+          variables: modules/aws/route53/variables.tf
+          outputs:   modules/aws/route53/outputs.tf
+
+      elasticache:
+        description: Redis replication group, Memcached cluster, subnet group, parameter group
+        path: modules/aws/elasticache/
+        resources:
+          - aws_elasticache_replication_group
+          - aws_elasticache_cluster
+          - aws_elasticache_subnet_group
+          - aws_elasticache_parameter_group
+        files:
+          main:      modules/aws/elasticache/main.tf
+          variables: modules/aws/elasticache/variables.tf
+          outputs:   modules/aws/elasticache/outputs.tf
+
+      sqs:
+        description: SQS standard/FIFO queues, dead-letter queue, redrive policy
+        path: modules/aws/sqs/
+        resources:
+          - aws_sqs_queue
+          - aws_sqs_queue_redrive_allow_policy
+          - aws_sqs_queue_policy
+        files:
+          main:      modules/aws/sqs/main.tf
+          variables: modules/aws/sqs/variables.tf
+          outputs:   modules/aws/sqs/outputs.tf
+
+      sns:
+        description: SNS standard/FIFO topics, subscriptions, topic policy
+        path: modules/aws/sns/
+        resources:
+          - aws_sns_topic
+          - aws_sns_topic_policy
+          - aws_sns_topic_subscription
+        files:
+          main:      modules/aws/sns/main.tf
+          variables: modules/aws/sns/variables.tf
+          outputs:   modules/aws/sns/outputs.tf
+
+      cloudwatch:
+        description: Log groups, metric alarms, dashboards, EventBridge rules and targets
+        path: modules/aws/cloudwatch/
+        resources:
+          - aws_cloudwatch_log_group
+          - aws_cloudwatch_metric_alarm
+          - aws_cloudwatch_dashboard
+          - aws_cloudwatch_event_rule
+          - aws_cloudwatch_event_target
+        files:
+          main:      modules/aws/cloudwatch/main.tf
+          variables: modules/aws/cloudwatch/variables.tf
+          outputs:   modules/aws/cloudwatch/outputs.tf
+
+      kms:
+        description: KMS customer-managed keys, aliases, grants
+        path: modules/aws/kms/
+        resources:
+          - aws_kms_key
+          - aws_kms_alias
+          - aws_kms_grant
+        files:
+          main:      modules/aws/kms/main.tf
+          variables: modules/aws/kms/variables.tf
+          outputs:   modules/aws/kms/outputs.tf
+
+      lambda:
+        description: Lambda functions, IAM role, event source mappings, function URLs, CloudWatch log group
+        path: modules/aws/lambda/
+        resources:
+          - aws_lambda_function
+          - aws_lambda_function_url
+          - aws_lambda_event_source_mapping
+          - aws_iam_role
+          - aws_iam_role_policy_attachment
+          - aws_cloudwatch_log_group
+        files:
+          main:      modules/aws/lambda/main.tf
+          variables: modules/aws/lambda/variables.tf
+          outputs:   modules/aws/lambda/outputs.tf
+
+      elastic_beanstalk:
+        description: Elastic Beanstalk application and environment, IAM roles, app versions (equivalent to Azure App Service)
+        path: modules/aws/elastic_beanstalk/
+        resources:
+          - aws_elastic_beanstalk_application
+          - aws_elastic_beanstalk_environment
+          - aws_elastic_beanstalk_application_version
+          - aws_iam_role
+          - aws_iam_instance_profile
+          - aws_iam_role_policy_attachment
+        files:
+          main:      modules/aws/elastic_beanstalk/main.tf
+          variables: modules/aws/elastic_beanstalk/variables.tf
+          outputs:   modules/aws/elastic_beanstalk/outputs.tf
+          readme:    modules/aws/elastic_beanstalk/README.md
+
+  # ---------------------------------------------------------------------------
+  # AZURE MODULES
+  # ---------------------------------------------------------------------------
+  azure:
+    provider: hashicorp/azurerm
+    provider_version: ">= 3.0"
+    base_path: modules/azure/
+
+    modules:
+
+      vnet:
+        description: Virtual Network, subnets, NSG, NAT Gateway, public IP
+        path: modules/azure/vnet/
+        resources:
+          - azurerm_virtual_network
+          - azurerm_subnet
+          - azurerm_resource_group
+          - azurerm_network_security_group
+          - azurerm_subnet_network_security_group_association
+          - azurerm_nat_gateway
+          - azurerm_public_ip
+          - azurerm_nat_gateway_public_ip_association
+        files:
+          main:      modules/azure/vnet/main.tf
+          variables: modules/azure/vnet/variables.tf
+          outputs:   modules/azure/vnet/outputs.tf
+
+      vm:
+        description: Linux/Windows VMs, NICs, managed disks, public IP, system-assigned identity
+        path: modules/azure/vm/
+        resources:
+          - azurerm_linux_virtual_machine
+          - azurerm_windows_virtual_machine
+          - azurerm_network_interface
+          - azurerm_public_ip
+          - azurerm_managed_disk
+          - azurerm_virtual_machine_data_disk_attachment
+        files:
+          main:      modules/azure/vm/main.tf
+          variables: modules/azure/vm/variables.tf
+          outputs:   modules/azure/vm/outputs.tf
+
+      aks:
+        description: AKS cluster, default and additional node pools, system-assigned identity
+        path: modules/azure/aks/
+        resources:
+          - azurerm_kubernetes_cluster
+          - azurerm_kubernetes_cluster_node_pool
+        files:
+          main:      modules/azure/aks/main.tf
+          variables: modules/azure/aks/variables.tf
+          outputs:   modules/azure/aks/outputs.tf
+
+      sql:
+        description: Azure SQL Server, databases, firewall rules, VNet rules, TDE
+        path: modules/azure/sql/
+        resources:
+          - azurerm_mssql_server
+          - azurerm_mssql_database
+          - azurerm_mssql_firewall_rule
+          - azurerm_mssql_virtual_network_rule
+          - azurerm_mssql_server_transparent_data_encryption
+        files:
+          main:      modules/azure/sql/main.tf
+          variables: modules/azure/sql/variables.tf
+          outputs:   modules/azure/sql/outputs.tf
+
+      storage:
+        description: Storage accounts, blob containers, queues, tables, file shares
+        path: modules/azure/storage/
+        resources:
+          - azurerm_storage_account
+          - azurerm_storage_container
+          - azurerm_storage_queue
+          - azurerm_storage_table
+          - azurerm_storage_share
+        files:
+          main:      modules/azure/storage/main.tf
+          variables: modules/azure/storage/variables.tf
+          outputs:   modules/azure/storage/outputs.tf
+
+      lb:
+        description: Azure Load Balancer, backend address pool, health probes, LB rules, NAT rules
+        path: modules/azure/lb/
+        resources:
+          - azurerm_lb
+          - azurerm_lb_backend_address_pool
+          - azurerm_lb_probe
+          - azurerm_lb_rule
+          - azurerm_lb_nat_rule
+          - azurerm_public_ip
+        files:
+          main:      modules/azure/lb/main.tf
+          variables: modules/azure/lb/variables.tf
+          outputs:   modules/azure/lb/outputs.tf
+
+      nsg:
+        description: Network Security Groups, security rules, subnet associations
+        path: modules/azure/nsg/
+        resources:
+          - azurerm_network_security_group
+          - azurerm_network_security_rule
+          - azurerm_subnet_network_security_group_association
+        files:
+          main:      modules/azure/nsg/main.tf
+          variables: modules/azure/nsg/variables.tf
+          outputs:   modules/azure/nsg/outputs.tf
+
+      keyvault:
+        description: Key Vault, access policies, secrets, keys, RBAC authorization
+        path: modules/azure/keyvault/
+        resources:
+          - azurerm_key_vault
+          - azurerm_key_vault_access_policy
+          - azurerm_key_vault_secret
+          - azurerm_key_vault_key
+        files:
+          main:      modules/azure/keyvault/main.tf
+          variables: modules/azure/keyvault/variables.tf
+          outputs:   modules/azure/keyvault/outputs.tf
+
+      monitor:
+        description: Log Analytics workspace, action groups, metric alerts, diagnostic settings
+        path: modules/azure/monitor/
+        resources:
+          - azurerm_log_analytics_workspace
+          - azurerm_monitor_action_group
+          - azurerm_monitor_metric_alert
+          - azurerm_monitor_diagnostic_setting
+        files:
+          main:      modules/azure/monitor/main.tf
+          variables: modules/azure/monitor/variables.tf
+          outputs:   modules/azure/monitor/outputs.tf
+
+      servicebus:
+        description: Service Bus namespace, queues, topics, subscriptions
+        path: modules/azure/servicebus/
+        resources:
+          - azurerm_servicebus_namespace
+          - azurerm_servicebus_queue
+          - azurerm_servicebus_topic
+          - azurerm_servicebus_subscription
+        files:
+          main:      modules/azure/servicebus/main.tf
+          variables: modules/azure/servicebus/variables.tf
+          outputs:   modules/azure/servicebus/outputs.tf
+
+      webapp:
+        description: App Service Plan, Linux/Windows Web Apps, deployment slots, custom domains, autoscale, VNet integration
+        path: modules/azure/webapp/
+        resources:
+          - azurerm_service_plan
+          - azurerm_linux_web_app
+          - azurerm_windows_web_app
+          - azurerm_linux_web_app_slot
+          - azurerm_windows_web_app_slot
+          - azurerm_app_service_custom_hostname_binding
+          - azurerm_app_service_managed_certificate
+          - azurerm_app_service_certificate_binding
+          - azurerm_monitor_autoscale_setting
+          - azurerm_monitor_diagnostic_setting
+        files:
+          main:      modules/azure/webapp/main.tf
+          variables: modules/azure/webapp/variables.tf
+          outputs:   modules/azure/webapp/outputs.tf
+          readme:    modules/azure/webapp/README.md
+
+  # ---------------------------------------------------------------------------
+  # GCP MODULES
+  # ---------------------------------------------------------------------------
+  gcp:
+    provider: hashicorp/google
+    provider_version: ">= 5.0"
+    base_path: modules/gcp/
+
+    modules:
+
+      vpc:
+        description: VPC network, subnets with secondary ranges, Cloud NAT, Cloud Router, firewall rules
+        path: modules/gcp/vpc/
+        resources:
+          - google_compute_network
+          - google_compute_subnetwork
+          - google_compute_router
+          - google_compute_router_nat
+          - google_compute_firewall
+        files:
+          main:      modules/gcp/vpc/main.tf
+          variables: modules/gcp/vpc/variables.tf
+          outputs:   modules/gcp/vpc/outputs.tf
+
+      gce:
+        description: Compute Engine instances, additional persistent disks, Shielded VM
+        path: modules/gcp/gce/
+        resources:
+          - google_compute_instance
+          - google_compute_disk
+        files:
+          main:      modules/gcp/gce/main.tf
+          variables: modules/gcp/gce/variables.tf
+          outputs:   modules/gcp/gce/outputs.tf
+
+      gke:
+        description: GKE cluster, node pools, Workload Identity, network policy, addons
+        path: modules/gcp/gke/
+        resources:
+          - google_container_cluster
+          - google_container_node_pool
+        files:
+          main:      modules/gcp/gke/main.tf
+          variables: modules/gcp/gke/variables.tf
+          outputs:   modules/gcp/gke/outputs.tf
+
+      cloudsql:
+        description: Cloud SQL instances, databases, users, read replicas
+        path: modules/gcp/cloudsql/
+        resources:
+          - google_sql_database_instance
+          - google_sql_database
+          - google_sql_user
+        files:
+          main:      modules/gcp/cloudsql/main.tf
+          variables: modules/gcp/cloudsql/variables.tf
+          outputs:   modules/gcp/cloudsql/outputs.tf
+
+      storage:
+        description: GCS buckets, versioning, lifecycle rules, CMEK encryption, IAM bindings
+        path: modules/gcp/storage/
+        resources:
+          - google_storage_bucket
+          - google_storage_bucket_iam_binding
+        files:
+          main:      modules/gcp/storage/main.tf
+          variables: modules/gcp/storage/variables.tf
+          outputs:   modules/gcp/storage/outputs.tf
+
+      lb:
+        description: Global/Regional HTTP(S) Load Balancer, backend services, health checks, URL maps, forwarding rules
+        path: modules/gcp/lb/
+        resources:
+          - google_compute_global_address
+          - google_compute_address
+          - google_compute_health_check
+          - google_compute_backend_service
+          - google_compute_url_map
+          - google_compute_target_https_proxy
+          - google_compute_target_http_proxy
+          - google_compute_global_forwarding_rule
+        files:
+          main:      modules/gcp/lb/main.tf
+          variables: modules/gcp/lb/variables.tf
+          outputs:   modules/gcp/lb/outputs.tf
+
+      iam:
+        description: Service accounts, project IAM bindings, Workload Identity, custom roles
+        path: modules/gcp/iam/
+        resources:
+          - google_service_account
+          - google_project_iam_member
+          - google_service_account_iam_binding
+          - google_project_iam_custom_role
+        files:
+          main:      modules/gcp/iam/main.tf
+          variables: modules/gcp/iam/variables.tf
+          outputs:   modules/gcp/iam/outputs.tf
+
+      pubsub:
+        description: Pub/Sub topics, subscriptions, dead-letter policy, retry policy, IAM bindings
+        path: modules/gcp/pubsub/
+        resources:
+          - google_pubsub_topic
+          - google_pubsub_subscription
+          - google_pubsub_topic_iam_binding
+        files:
+          main:      modules/gcp/pubsub/main.tf
+          variables: modules/gcp/pubsub/variables.tf
+          outputs:   modules/gcp/pubsub/outputs.tf
+
+      monitoring:
+        description: Alert policies, notification channels, uptime checks, log-based metrics
+        path: modules/gcp/monitoring/
+        resources:
+          - google_monitoring_notification_channel
+          - google_monitoring_alert_policy
+          - google_monitoring_uptime_check_config
+          - google_logging_metric
+        files:
+          main:      modules/gcp/monitoring/main.tf
+          variables: modules/gcp/monitoring/variables.tf
+          outputs:   modules/gcp/monitoring/outputs.tf
+
+      kms:
+        description: KMS key rings, crypto keys, IAM bindings
+        path: modules/gcp/kms/
+        resources:
+          - google_kms_key_ring
+          - google_kms_crypto_key
+          - google_kms_crypto_key_iam_binding
+        files:
+          main:      modules/gcp/kms/main.tf
+          variables: modules/gcp/kms/variables.tf
+          outputs:   modules/gcp/kms/outputs.tf
+
+      appengine:
+        description: App Engine application, standard/flexible versions, traffic splitting, VPC connector, custom domains (equivalent to Azure App Service)
+        path: modules/gcp/appengine/
+        resources:
+          - google_app_engine_application
+          - google_app_engine_standard_app_version
+          - google_app_engine_flexible_app_version
+          - google_app_engine_service_split_traffic
+          - google_app_engine_domain_mapping
+          - google_app_engine_firewall_rule
+          - google_vpc_access_connector
+        files:
+          main:      modules/gcp/appengine/main.tf
+          variables: modules/gcp/appengine/variables.tf
+          outputs:   modules/gcp/appengine/outputs.tf
+          readme:    modules/gcp/appengine/README.md
+
+  # ---------------------------------------------------------------------------
+  # EXAMPLES
+  # ---------------------------------------------------------------------------
+  examples:
+    description: Complete working examples for each cloud and use case
+    base_path: examples/
+
+    aws:
+      description: Complete AWS example — VPC, EC2, ALB, RDS, S3, SQS, SNS, CloudWatch, Lambda, KMS
+      files:
+        main: examples/aws/main.tf
+
+    azure:
+      description: Complete Azure example — VNet, NSG, Key Vault, Storage, VM, SQL, Monitor, Service Bus
+      files:
+        main: examples/azure/main.tf
+
+    gcp:
+      description: Complete GCP example — VPC, IAM, KMS, Storage, Cloud SQL, GCE, Pub/Sub, Monitoring
+      files:
+        main: examples/gcp/main.tf
+
+    webapp:
+      description: Multi-cloud web app example — Azure App Service vs AWS Elastic Beanstalk vs GCP App Engine
+      files:
+        main: examples/webapp/main.tf
+
+  # ---------------------------------------------------------------------------
+  # CROSS-CLOUD EQUIVALENTS REFERENCE
+  # ---------------------------------------------------------------------------
+  cross_cloud_equivalents:
+    description: Maps equivalent services across AWS, Azure, and GCP
+
+    networking:
+      virtual_network:
+        aws:   modules/aws/vpc/
+        azure: modules/azure/vnet/
+        gcp:   modules/gcp/vpc/
+
+      firewall_security_group:
+        aws:   modules/aws/security_group/
+        azure: modules/azure/nsg/
+        gcp:   modules/gcp/vpc/          # firewall rules inside vpc module
+
+      load_balancer:
+        aws:   modules/aws/alb/
+        azure: modules/azure/lb/
+        gcp:   modules/gcp/lb/
+
+    compute:
+      virtual_machine:
+        aws:   modules/aws/ec2/
+        azure: modules/azure/vm/
+        gcp:   modules/gcp/gce/
+
+      kubernetes:
+        aws:   modules/aws/eks/
+        azure: modules/azure/aks/
+        gcp:   modules/gcp/gke/
+
+      web_app_paas:
+        aws:   modules/aws/elastic_beanstalk/
+        azure: modules/azure/webapp/
+        gcp:   modules/gcp/appengine/
+
+      serverless_function:
+        aws:   modules/aws/lambda/
+        azure: "(not yet implemented)"
+        gcp:   "(not yet implemented)"
+
+    database:
+      relational_database:
+        aws:   modules/aws/rds/
+        azure: modules/azure/sql/
+        gcp:   modules/gcp/cloudsql/
+
+      in_memory_cache:
+        aws:   modules/aws/elasticache/
+        azure: "(not yet implemented)"
+        gcp:   "(not yet implemented)"
+
+    storage:
+      object_storage:
+        aws:   modules/aws/s3/
+        azure: modules/azure/storage/
+        gcp:   modules/gcp/storage/
+
+    messaging:
+      queue:
+        aws:   modules/aws/sqs/
+        azure: modules/azure/servicebus/
+        gcp:   modules/gcp/pubsub/
+
+      topic_pubsub:
+        aws:   modules/aws/sns/
+        azure: modules/azure/servicebus/
+        gcp:   modules/gcp/pubsub/
+
+    security:
+      key_management:
+        aws:   modules/aws/kms/
+        azure: modules/azure/keyvault/
+        gcp:   modules/gcp/kms/
+
+      identity_access:
+        aws:   modules/aws/iam/
+        azure: "(managed via azurerm_role_assignment)"
+        gcp:   modules/gcp/iam/
+
+    dns:
+      dns_management:
+        aws:   modules/aws/route53/
+        azure: "(not yet implemented)"
+        gcp:   "(not yet implemented)"
+
+    observability:
+      monitoring_alerting:
+        aws:   modules/aws/cloudwatch/
+        azure: modules/azure/monitor/
+        gcp:   modules/gcp/monitoring/
