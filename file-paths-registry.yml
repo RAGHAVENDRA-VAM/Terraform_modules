@@ -19,19 +19,19 @@ repository:
   root_module:
     description: Root module that wires all cloud modules together
     files:
-      entrypoint:   main.tf
-      variables:    variables.tf
-      outputs:      outputs.tf
-      readme:       README.md
-      gitignore:    .gitignore
+      entrypoint: main.tf
+      variables:  variables.tf
+      outputs:    outputs.tf
+      readme:     README.md
+      gitignore:  .gitignore
 
   # ---------------------------------------------------------------------------
   # AWS MODULES
   # ---------------------------------------------------------------------------
   aws:
-    provider: hashicorp/aws
+    provider:         hashicorp/aws
     provider_version: ">= 5.0"
-    base_path: modules/aws/
+    base_path:        modules/aws/
 
     modules:
 
@@ -47,6 +47,7 @@ repository:
           - aws_route_table
           - aws_route_table_association
         files:
+          provider:  modules/aws/vpc/provider.tf
           main:      modules/aws/vpc/main.tf
           variables: modules/aws/vpc/variables.tf
           outputs:   modules/aws/vpc/outputs.tf
@@ -59,6 +60,7 @@ repository:
           - aws_instance
           - aws_eip
         files:
+          provider:  modules/aws/ec2/provider.tf
           main:      modules/aws/ec2/main.tf
           variables: modules/aws/ec2/variables.tf
           outputs:   modules/aws/ec2/outputs.tf
@@ -72,6 +74,7 @@ repository:
           - aws_vpc_security_group_ingress_rule
           - aws_vpc_security_group_egress_rule
         files:
+          provider:  modules/aws/security_group/provider.tf
           main:      modules/aws/security_group/main.tf
           variables: modules/aws/security_group/variables.tf
           outputs:   modules/aws/security_group/outputs.tf
@@ -89,6 +92,7 @@ repository:
           - aws_s3_bucket_cors_configuration
           - aws_s3_bucket_logging
         files:
+          provider:  modules/aws/s3/provider.tf
           main:      modules/aws/s3/main.tf
           variables: modules/aws/s3/variables.tf
           outputs:   modules/aws/s3/outputs.tf
@@ -101,6 +105,7 @@ repository:
           - aws_db_subnet_group
           - aws_db_parameter_group
         files:
+          provider:  modules/aws/rds/provider.tf
           main:      modules/aws/rds/main.tf
           variables: modules/aws/rds/variables.tf
           outputs:   modules/aws/rds/outputs.tf
@@ -119,6 +124,7 @@ repository:
           - aws_iam_group
           - aws_iam_group_policy_attachment
         files:
+          provider:  modules/aws/iam/provider.tf
           main:      modules/aws/iam/main.tf
           variables: modules/aws/iam/variables.tf
           outputs:   modules/aws/iam/outputs.tf
@@ -133,6 +139,7 @@ repository:
           - aws_iam_role
           - aws_iam_role_policy_attachment
         files:
+          provider:  modules/aws/eks/provider.tf
           main:      modules/aws/eks/main.tf
           variables: modules/aws/eks/variables.tf
           outputs:   modules/aws/eks/outputs.tf
@@ -146,6 +153,7 @@ repository:
           - aws_lb_listener
           - aws_lb_listener_rule
         files:
+          provider:  modules/aws/alb/provider.tf
           main:      modules/aws/alb/main.tf
           variables: modules/aws/alb/variables.tf
           outputs:   modules/aws/alb/outputs.tf
@@ -158,6 +166,7 @@ repository:
           - aws_route53_record
           - aws_route53_health_check
         files:
+          provider:  modules/aws/route53/provider.tf
           main:      modules/aws/route53/main.tf
           variables: modules/aws/route53/variables.tf
           outputs:   modules/aws/route53/outputs.tf
@@ -171,6 +180,7 @@ repository:
           - aws_elasticache_subnet_group
           - aws_elasticache_parameter_group
         files:
+          provider:  modules/aws/elasticache/provider.tf
           main:      modules/aws/elasticache/main.tf
           variables: modules/aws/elasticache/variables.tf
           outputs:   modules/aws/elasticache/outputs.tf
@@ -183,6 +193,7 @@ repository:
           - aws_sqs_queue_redrive_allow_policy
           - aws_sqs_queue_policy
         files:
+          provider:  modules/aws/sqs/provider.tf
           main:      modules/aws/sqs/main.tf
           variables: modules/aws/sqs/variables.tf
           outputs:   modules/aws/sqs/outputs.tf
@@ -195,6 +206,7 @@ repository:
           - aws_sns_topic_policy
           - aws_sns_topic_subscription
         files:
+          provider:  modules/aws/sns/provider.tf
           main:      modules/aws/sns/main.tf
           variables: modules/aws/sns/variables.tf
           outputs:   modules/aws/sns/outputs.tf
@@ -209,6 +221,7 @@ repository:
           - aws_cloudwatch_event_rule
           - aws_cloudwatch_event_target
         files:
+          provider:  modules/aws/cloudwatch/provider.tf
           main:      modules/aws/cloudwatch/main.tf
           variables: modules/aws/cloudwatch/variables.tf
           outputs:   modules/aws/cloudwatch/outputs.tf
@@ -221,6 +234,7 @@ repository:
           - aws_kms_alias
           - aws_kms_grant
         files:
+          provider:  modules/aws/kms/provider.tf
           main:      modules/aws/kms/main.tf
           variables: modules/aws/kms/variables.tf
           outputs:   modules/aws/kms/outputs.tf
@@ -236,12 +250,13 @@ repository:
           - aws_iam_role_policy_attachment
           - aws_cloudwatch_log_group
         files:
+          provider:  modules/aws/lambda/provider.tf
           main:      modules/aws/lambda/main.tf
           variables: modules/aws/lambda/variables.tf
           outputs:   modules/aws/lambda/outputs.tf
 
       elastic_beanstalk:
-        description: Elastic Beanstalk application and environment, IAM roles, app versions (equivalent to Azure App Service)
+        description: Elastic Beanstalk application, environment, IAM roles, app versions (equivalent to Azure App Service)
         path: modules/aws/elastic_beanstalk/
         resources:
           - aws_elastic_beanstalk_application
@@ -251,6 +266,7 @@ repository:
           - aws_iam_instance_profile
           - aws_iam_role_policy_attachment
         files:
+          provider:  modules/aws/elastic_beanstalk/provider.tf
           main:      modules/aws/elastic_beanstalk/main.tf
           variables: modules/aws/elastic_beanstalk/variables.tf
           outputs:   modules/aws/elastic_beanstalk/outputs.tf
@@ -260,9 +276,9 @@ repository:
   # AZURE MODULES
   # ---------------------------------------------------------------------------
   azure:
-    provider: hashicorp/azurerm
+    provider:         hashicorp/azurerm
     provider_version: ">= 3.0"
-    base_path: modules/azure/
+    base_path:        modules/azure/
 
     modules:
 
@@ -279,6 +295,7 @@ repository:
           - azurerm_public_ip
           - azurerm_nat_gateway_public_ip_association
         files:
+          provider:  modules/azure/vnet/provider.tf
           main:      modules/azure/vnet/main.tf
           variables: modules/azure/vnet/variables.tf
           outputs:   modules/azure/vnet/outputs.tf
@@ -294,6 +311,7 @@ repository:
           - azurerm_managed_disk
           - azurerm_virtual_machine_data_disk_attachment
         files:
+          provider:  modules/azure/vm/provider.tf
           main:      modules/azure/vm/main.tf
           variables: modules/azure/vm/variables.tf
           outputs:   modules/azure/vm/outputs.tf
@@ -305,6 +323,7 @@ repository:
           - azurerm_kubernetes_cluster
           - azurerm_kubernetes_cluster_node_pool
         files:
+          provider:  modules/azure/aks/provider.tf
           main:      modules/azure/aks/main.tf
           variables: modules/azure/aks/variables.tf
           outputs:   modules/azure/aks/outputs.tf
@@ -319,6 +338,7 @@ repository:
           - azurerm_mssql_virtual_network_rule
           - azurerm_mssql_server_transparent_data_encryption
         files:
+          provider:  modules/azure/sql/provider.tf
           main:      modules/azure/sql/main.tf
           variables: modules/azure/sql/variables.tf
           outputs:   modules/azure/sql/outputs.tf
@@ -333,6 +353,7 @@ repository:
           - azurerm_storage_table
           - azurerm_storage_share
         files:
+          provider:  modules/azure/storage/provider.tf
           main:      modules/azure/storage/main.tf
           variables: modules/azure/storage/variables.tf
           outputs:   modules/azure/storage/outputs.tf
@@ -348,6 +369,7 @@ repository:
           - azurerm_lb_nat_rule
           - azurerm_public_ip
         files:
+          provider:  modules/azure/lb/provider.tf
           main:      modules/azure/lb/main.tf
           variables: modules/azure/lb/variables.tf
           outputs:   modules/azure/lb/outputs.tf
@@ -360,6 +382,7 @@ repository:
           - azurerm_network_security_rule
           - azurerm_subnet_network_security_group_association
         files:
+          provider:  modules/azure/nsg/provider.tf
           main:      modules/azure/nsg/main.tf
           variables: modules/azure/nsg/variables.tf
           outputs:   modules/azure/nsg/outputs.tf
@@ -373,6 +396,7 @@ repository:
           - azurerm_key_vault_secret
           - azurerm_key_vault_key
         files:
+          provider:  modules/azure/keyvault/provider.tf
           main:      modules/azure/keyvault/main.tf
           variables: modules/azure/keyvault/variables.tf
           outputs:   modules/azure/keyvault/outputs.tf
@@ -386,6 +410,7 @@ repository:
           - azurerm_monitor_metric_alert
           - azurerm_monitor_diagnostic_setting
         files:
+          provider:  modules/azure/monitor/provider.tf
           main:      modules/azure/monitor/main.tf
           variables: modules/azure/monitor/variables.tf
           outputs:   modules/azure/monitor/outputs.tf
@@ -399,6 +424,7 @@ repository:
           - azurerm_servicebus_topic
           - azurerm_servicebus_subscription
         files:
+          provider:  modules/azure/servicebus/provider.tf
           main:      modules/azure/servicebus/main.tf
           variables: modules/azure/servicebus/variables.tf
           outputs:   modules/azure/servicebus/outputs.tf
@@ -418,6 +444,7 @@ repository:
           - azurerm_monitor_autoscale_setting
           - azurerm_monitor_diagnostic_setting
         files:
+          provider:  modules/azure/webapp/provider.tf
           main:      modules/azure/webapp/main.tf
           variables: modules/azure/webapp/variables.tf
           outputs:   modules/azure/webapp/outputs.tf
@@ -427,9 +454,9 @@ repository:
   # GCP MODULES
   # ---------------------------------------------------------------------------
   gcp:
-    provider: hashicorp/google
+    provider:         hashicorp/google
     provider_version: ">= 5.0"
-    base_path: modules/gcp/
+    base_path:        modules/gcp/
 
     modules:
 
@@ -443,6 +470,7 @@ repository:
           - google_compute_router_nat
           - google_compute_firewall
         files:
+          provider:  modules/gcp/vpc/provider.tf
           main:      modules/gcp/vpc/main.tf
           variables: modules/gcp/vpc/variables.tf
           outputs:   modules/gcp/vpc/outputs.tf
@@ -454,6 +482,7 @@ repository:
           - google_compute_instance
           - google_compute_disk
         files:
+          provider:  modules/gcp/gce/provider.tf
           main:      modules/gcp/gce/main.tf
           variables: modules/gcp/gce/variables.tf
           outputs:   modules/gcp/gce/outputs.tf
@@ -465,6 +494,7 @@ repository:
           - google_container_cluster
           - google_container_node_pool
         files:
+          provider:  modules/gcp/gke/provider.tf
           main:      modules/gcp/gke/main.tf
           variables: modules/gcp/gke/variables.tf
           outputs:   modules/gcp/gke/outputs.tf
@@ -477,6 +507,7 @@ repository:
           - google_sql_database
           - google_sql_user
         files:
+          provider:  modules/gcp/cloudsql/provider.tf
           main:      modules/gcp/cloudsql/main.tf
           variables: modules/gcp/cloudsql/variables.tf
           outputs:   modules/gcp/cloudsql/outputs.tf
@@ -488,6 +519,7 @@ repository:
           - google_storage_bucket
           - google_storage_bucket_iam_binding
         files:
+          provider:  modules/gcp/storage/provider.tf
           main:      modules/gcp/storage/main.tf
           variables: modules/gcp/storage/variables.tf
           outputs:   modules/gcp/storage/outputs.tf
@@ -505,6 +537,7 @@ repository:
           - google_compute_target_http_proxy
           - google_compute_global_forwarding_rule
         files:
+          provider:  modules/gcp/lb/provider.tf
           main:      modules/gcp/lb/main.tf
           variables: modules/gcp/lb/variables.tf
           outputs:   modules/gcp/lb/outputs.tf
@@ -518,6 +551,7 @@ repository:
           - google_service_account_iam_binding
           - google_project_iam_custom_role
         files:
+          provider:  modules/gcp/iam/provider.tf
           main:      modules/gcp/iam/main.tf
           variables: modules/gcp/iam/variables.tf
           outputs:   modules/gcp/iam/outputs.tf
@@ -530,6 +564,7 @@ repository:
           - google_pubsub_subscription
           - google_pubsub_topic_iam_binding
         files:
+          provider:  modules/gcp/pubsub/provider.tf
           main:      modules/gcp/pubsub/main.tf
           variables: modules/gcp/pubsub/variables.tf
           outputs:   modules/gcp/pubsub/outputs.tf
@@ -543,6 +578,7 @@ repository:
           - google_monitoring_uptime_check_config
           - google_logging_metric
         files:
+          provider:  modules/gcp/monitoring/provider.tf
           main:      modules/gcp/monitoring/main.tf
           variables: modules/gcp/monitoring/variables.tf
           outputs:   modules/gcp/monitoring/outputs.tf
@@ -555,12 +591,13 @@ repository:
           - google_kms_crypto_key
           - google_kms_crypto_key_iam_binding
         files:
+          provider:  modules/gcp/kms/provider.tf
           main:      modules/gcp/kms/main.tf
           variables: modules/gcp/kms/variables.tf
           outputs:   modules/gcp/kms/outputs.tf
 
       appengine:
-        description: App Engine application, standard/flexible versions, traffic splitting, VPC connector, custom domains (equivalent to Azure App Service)
+        description: App Engine application, standard/flexible versions, traffic splitting, VPC connector, custom domains
         path: modules/gcp/appengine/
         resources:
           - google_app_engine_application
@@ -571,6 +608,7 @@ repository:
           - google_app_engine_firewall_rule
           - google_vpc_access_connector
         files:
+          provider:  modules/gcp/appengine/provider.tf
           main:      modules/gcp/appengine/main.tf
           variables: modules/gcp/appengine/variables.tf
           outputs:   modules/gcp/appengine/outputs.tf
@@ -599,7 +637,7 @@ repository:
         main: examples/gcp/main.tf
 
     webapp:
-      description: Multi-cloud web app example — Azure App Service vs AWS Elastic Beanstalk vs GCP App Engine
+      description: Multi-cloud web app — Azure App Service vs AWS Elastic Beanstalk vs GCP App Engine
       files:
         main: examples/webapp/main.tf
 
@@ -614,12 +652,10 @@ repository:
         aws:   modules/aws/vpc/
         azure: modules/azure/vnet/
         gcp:   modules/gcp/vpc/
-
       firewall_security_group:
         aws:   modules/aws/security_group/
         azure: modules/azure/nsg/
-        gcp:   modules/gcp/vpc/          # firewall rules inside vpc module
-
+        gcp:   modules/gcp/vpc/
       load_balancer:
         aws:   modules/aws/alb/
         azure: modules/azure/lb/
@@ -630,17 +666,14 @@ repository:
         aws:   modules/aws/ec2/
         azure: modules/azure/vm/
         gcp:   modules/gcp/gce/
-
       kubernetes:
         aws:   modules/aws/eks/
         azure: modules/azure/aks/
         gcp:   modules/gcp/gke/
-
       web_app_paas:
         aws:   modules/aws/elastic_beanstalk/
         azure: modules/azure/webapp/
         gcp:   modules/gcp/appengine/
-
       serverless_function:
         aws:   modules/aws/lambda/
         azure: "(not yet implemented)"
@@ -651,7 +684,6 @@ repository:
         aws:   modules/aws/rds/
         azure: modules/azure/sql/
         gcp:   modules/gcp/cloudsql/
-
       in_memory_cache:
         aws:   modules/aws/elasticache/
         azure: "(not yet implemented)"
@@ -668,7 +700,6 @@ repository:
         aws:   modules/aws/sqs/
         azure: modules/azure/servicebus/
         gcp:   modules/gcp/pubsub/
-
       topic_pubsub:
         aws:   modules/aws/sns/
         azure: modules/azure/servicebus/
@@ -679,7 +710,6 @@ repository:
         aws:   modules/aws/kms/
         azure: modules/azure/keyvault/
         gcp:   modules/gcp/kms/
-
       identity_access:
         aws:   modules/aws/iam/
         azure: "(managed via azurerm_role_assignment)"
